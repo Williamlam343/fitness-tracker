@@ -5,7 +5,20 @@ const Exercise = require("../../models")
 // retrive from database
 router.get("/", async (req, res) => {
     try {
-        let exerciseData = await Exercise.find({})
+        let exerciseData = await Exercise.aggregate([
+            {
+                $addFields:
+                {
+                    totalDuration: {
+                        $sum: "$exercises.duration",
+                    },
+                    totalWeight: {
+
+                        $sum: "$exercises.weight"
+                    }
+                }
+            }
+        ])
 
         res.json(exerciseData)
     } catch (error) {
@@ -20,7 +33,7 @@ router.put("/:id", async (req, res) => {
 
     try {
 
-        let exerciseData = await Exercise.updateOne({ uid: "616dfa5ccd583723dc66d9f5" }, { $push: { exercises: req.body } })
+        let exerciseData = await Exercise.findByIdAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } })
 
         res.json(exerciseData)
 
@@ -30,12 +43,38 @@ router.put("/:id", async (req, res) => {
 })
 
 // creates an exercise
-router.post("/", (req, res) => { })
+router.post("/", async (req, res) => {
+    // try {
+
+    //     let exerciseData = await Exercise.create(req.body)
+
+    // } catch (error) {
+
+    //     res.json(error)
+
+    // }
+
+})
 
 // retrive from database
 router.get("/range", async (req, res) => {
     try {
-        let exerciseData = await Exercise.find({})
+        let exerciseData = await Exercise.aggregate([
+            {
+                $addFields:
+                {
+                    totalDuration: {
+                        $sum: "$exercises.duration",
+                    },
+                    totalWeight: {
+
+                        $sum: "$exercises.weight"
+                    }
+                }
+            }
+        ])
+
+        // let db.exercises.aggregate
 
         res.json(exerciseData)
     } catch (error) {
