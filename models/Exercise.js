@@ -5,9 +5,6 @@ const Schema = mongoose.Schema
 
 const exerciseSchema = new Schema(
     {
-        id: {
-            type: Number
-        },
         type: {
             type: String
         },
@@ -18,19 +15,22 @@ const exerciseSchema = new Schema(
         },
         weight: {
             type: Number,
-            required: "Enter a number"
+
         },
         set: {
             type: Number,
-            required: "Enter a number"
+
         },
         rep: {
             type: Number,
-            required: "Enter a number"
+
         },
         duration: {
             type: Number,
             required: "Enter a number"
+        },
+        distance: {
+            type: Number
         }
     }
 )
