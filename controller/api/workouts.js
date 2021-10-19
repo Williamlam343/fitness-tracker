@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const { ObjectID } = require("bson")
 const Exercise = require("../../models")
 
 
@@ -12,10 +13,6 @@ router.get("/", async (req, res) => {
                     totalDuration: {
                         $sum: "$exercises.duration",
                     },
-                    totalWeight: {
-
-                        $sum: "$exercises.weight"
-                    }
                 }
             }
         ])
@@ -24,35 +21,6 @@ router.get("/", async (req, res) => {
     } catch (error) {
         res.json(error)
     }
-
-})
-
-// adds an exercise
-router.put("/:id", async (req, res) => {
-    console.log(req.body)
-
-    try {
-
-        let exerciseData = await Exercise.findByIdAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } })
-
-        res.json(exerciseData)
-
-    } catch (error) {
-
-    }
-})
-
-// creates an exercise
-router.post("/", async (req, res) => {
-    // try {
-
-    //     let exerciseData = await Exercise.create(req.body)
-
-    // } catch (error) {
-
-    //     res.json(error)
-
-    // }
 
 })
 
@@ -81,5 +49,38 @@ router.get("/range", async (req, res) => {
         res.json(error)
     }
 })
+
+
+
+
+// adds an exercise
+router.put("/:id", async (req, res) => {
+    console.log(req.body)
+    console.log(req.params.id)
+    try {
+
+        let exerciseData = await Exercise.findByIdAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } })
+
+        res.json(exerciseData)
+
+    } catch (error) {
+
+    }
+})
+
+// creates an exercise
+router.post("/", async (req, res) => {
+    // try {
+
+    //     let exerciseData = await Exercise.create(req.body)
+
+    // } catch (error) {
+
+    //     res.json(error)
+
+    // }
+
+})
+
 
 module.exports = router;

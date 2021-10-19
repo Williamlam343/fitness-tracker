@@ -1,8 +1,15 @@
 const router = require("express").Router()
 const path = require("path")
+// const Exercise = require("../models")
 
 router.get("/", (req, res) => {
-    res.json("hello")
+    res.json()
+})
+
+router.get("/exercise?id=:id", async (req, res) => {
+    console.log(req.params.id)
+    res.sendFile(path.join(__dirname, `public/exercise?id=${req.params.id}`))
+
 })
 
 router.get("/exercise", (req, res) => {
