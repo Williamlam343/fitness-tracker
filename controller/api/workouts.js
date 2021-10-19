@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { ObjectID } = require("bson")
+const { ObjectID, ObjectId } = require("bson")
 const Exercise = require("../../models")
 
 
@@ -42,8 +42,6 @@ router.get("/range", async (req, res) => {
             }
         ])
 
-        // let db.exercises.aggregate
-
         res.json(exerciseData)
     } catch (error) {
         res.json(error)
@@ -52,35 +50,61 @@ router.get("/range", async (req, res) => {
 
 
 
-
-// adds an exercise
-router.put("/:id", async (req, res) => {
-    console.log(req.body)
-    console.log(req.params.id)
+// creates an exercise
+router.post("/", async (req, res) => {
     try {
+        res.json(
 
-        let exerciseData = await Exercise.findByIdAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } })
+            await Exercise.create(req.body)
 
-        res.json(exerciseData)
+        )
 
     } catch (error) {
 
+        res.json(error)
+
+    }
+
+})
+
+// adds an exercise
+router.put("/:id", async ({ body, params }, res) => {
+    console.log(body)
+    console.log(params.id)
+    try {
+        let data = await Exercise.findByIdAndUpdate(
+            params.id,
+            { $push: { exercises: body } },
+            {
+                new: true
+            }
+        )
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+        res.json(error)
     }
 })
 
-// creates an exercise
-router.post("/", async (req, res) => {
-    // try {
+// router.put("/:id", ({ body, params }, res) => {
+//     Exercise.findOneAndUpdate(
+//         params.id,
+//         { $push: { exercises: body } },
+//         { new: true, runValidators: true })
+//         .then(workout_db => { res.json(workout_db); })
+//         .catch(err => { res.json(err); });
+// });
 
-    //     let exerciseData = await Exercise.create(req.body)
 
-    // } catch (error) {
+// router.put("/:id", async (req, res) => {
+//     console.log(req.body)
+//     console.log(req.params.id)
 
-    //     res.json(error)
-
-    // }
-
-})
+//     const filter = { _id: ObjectId(req.params.id) }
+//     const update = { $insert: { help: req.body } }
+//     let workoutData = await Exercise.findOneAndUpdate(filter, update, { new: true })
+//     console.log(workoutData)
+// })
 
 
 module.exports = router;

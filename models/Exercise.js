@@ -27,7 +27,7 @@ const exerciseSchema = new Schema(
         },
         duration: {
             type: Number,
-            required: "Enter a number"
+
         },
         distance: {
             type: Number

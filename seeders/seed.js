@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const exercises = require('../models');
+const Exercise = require('../models');
+
 
 
 mongoose.connect('mongodb://localhost/workout', {
@@ -126,8 +127,8 @@ const workoutSeed = [
   },
 ];
 
-exercises.deleteMany({})
-  .then(() => exercises.collection.insertMany(workoutSeed))
+
+Exercise.collection.insertMany(workoutSeed)
   .then((data) => {
     console.log(data.result.n + ' records inserted!');
     process.exit(0);
