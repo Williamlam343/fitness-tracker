@@ -58,10 +58,12 @@ router.post("/", async (req, res) => {
 
 // adds an exercise
 router.put("/:id", async ({ body, params }, res) => {
-    console.log(body)
-    console.log(params.id)
     try {
-        let data = await Exercise.findByIdAndUpdate(params.id, { $push: { exercises: body } }, { new: true, runValidators: true })
+
+        let data = await Exercise.findByIdAndUpdate(
+            params.id,
+            { $push: { exercises: body } },
+            { new: true, runValidators: true })
         res.json(data)
 
     } catch (error) {
